@@ -9,8 +9,8 @@ import 'package:cli/repositories/vehicle_repository.dart';
 void initData() {
   Person owner = Person(personId: "7211097550", name: "Anders");
   PersonRepository().add(owner);
-  Vehicle vehicle = Vehicle(regId: "LUP767", vehicleType: VehicleType.bil, owner: owner);
+  Vehicle vehicle = Vehicle(regId: "LUP767", vehicleType: VehicleType.bil, ownerId: PersonRepository().getByIndex(0)!.id);
   VehicleRepository().add(vehicle);
-  ParkingSpace parkingSpace = ParkingSpace(address: "Paulusväg 13, Bålsta", pricePerHour: 29);
+  ParkingSpace parkingSpace = ParkingSpace(address: "Paulus, Bålsta", pricePerHour: 29);
   ParkingSpaceRepository().add(parkingSpace);
 }

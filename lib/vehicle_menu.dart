@@ -5,8 +5,6 @@ import "package:cli/models/vehicle.dart";
 import "package:cli/repositories/person_repsoitory.dart";
 import "package:cli/repositories/vehicle_repository.dart";
 
-import "models/person.dart";
-
 void showMenu() {
   
   //show the submenu for 'Personer'
@@ -80,12 +78,12 @@ void addVehicle() {
   VehicleType vehicleType = setVehicleType();
 
   //print all persons so the user can select the owner the person-index
-  Person owner = setOwner();
+  String ownerId = setOwnerId();
 
   try {
 
-    //construct a Person and add Person with function from the repo
-    var newVehicle = Vehicle(regId: regId, vehicleType: vehicleType, owner: owner);
+    //construct a Vehicle and add Vehicle with function from the repo
+    var newVehicle = Vehicle(regId: regId, vehicleType: vehicleType, ownerId: ownerId);
     VehicleRepository().add(newVehicle);
 
     print("\nFordonet med regstreringsnummer ${newVehicle.regId} har lagts till.");
@@ -192,10 +190,10 @@ void updateVehicle() {
     VehicleType vehicleType = setVehicleType("\nVilken typ av fordon är det? [Nuvarande fordonstyp: ${vehicle.vehicleType.name.toUpperCase()}] ");
 
     //print all persons so the user can select the owner the person-index
-    Person owner = setOwner("\nVem är ägaren av fordonet? [Nuvarande ägare: ${vehicle.owner.name}] ");
+    String ownerId = setOwnerId("\nVem är ägaren av fordonet? [Nuvarande ägare: ${PersonRepository().getPersonById(vehicle.ownerId).name}] ");
 
     //object for updated vehicle
-    var updatedVehicle = Vehicle(id: vehicle.id, regId: regId, vehicleType: vehicleType, owner: owner );
+    var updatedVehicle = Vehicle(id: vehicle.id, regId: regId, vehicleType: vehicleType, ownerId: ownerId );
 
     //update the person
     vehicle = vehicleList.update(vehicle, updatedVehicle)!;
@@ -311,7 +309,7 @@ VehicleType setVehicleType([String message = "\nVilken typ av fordon är det?"])
 }
 
 //subfunction to set the ownerperson
-Person setOwner([String message = "\nVem är ägaren av fordonet?"]) {
+String setOwnerId([String message = "\nVem är ägaren av fordonet?"]) {
 
   print(message);
 
@@ -328,7 +326,7 @@ Person setOwner([String message = "\nVem är ägaren av fordonet?"]) {
   } while(inputOwnerIndex.isEmpty || int.tryParse(inputOwnerIndex) == null || int.tryParse(inputOwnerIndex)! >= PersonRepository().getAll().length);
   
   //select the person by index and return it
-  return  PersonRepository().getByIndex(int.parse(inputOwnerIndex))!;
+  return PersonRepository().getByIndex(int.parse(inputOwnerIndex))!.id;
 
 }
 

@@ -2,7 +2,6 @@ import "dart:convert";
 import "dart:io";
 import "package:cli/main_menu.dart" as main_menu;
 import "package:cli/models/person.dart";
-import "package:cli/parking_space_menu.dart";
 import "package:cli/repositories/person_repsoitory.dart";
 
 void showMenu() {

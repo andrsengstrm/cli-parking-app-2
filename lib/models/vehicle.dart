@@ -1,4 +1,4 @@
-import 'package:cli/models/person.dart';
+import 'package:cli/repositories/person_repsoitory.dart';
 import 'package:uuid/uuid.dart';
 var uuid = Uuid();
 
@@ -7,17 +7,17 @@ class Vehicle {
   final String id;
   String regId;
   VehicleType vehicleType;
-  Person owner;
+  String ownerId;
 
   //constructor with optional id, if not supplied a uid is created
-  Vehicle({String? id, required this.regId, required this.vehicleType, required this.owner }) : id = id ?? uuid.v1();
+  Vehicle({String? id, required this.regId, required this.vehicleType, required this.ownerId }) : id = id ?? uuid.v1();
 
   //deserialize from json
   Vehicle.fromJson(Map<String,dynamic> json)
     : id = json["id"] as String,
       regId = json["regId"] as String,
       vehicleType = json["vehicleType"] as VehicleType,
-      owner = Person.fromJson(json["owner"]);
+      ownerId = json["owner"] as String;
 
 
   //serialize to json, we add in owner as an object instead of only the ownerId
@@ -25,11 +25,11 @@ class Vehicle {
     "id": id,
     "regId": regId,
     "vehicleType": vehicleType,
-    "owner": owner.toJson()
+    "ownerId": ownerId
   };
 
   //return a string with some predefined details
-  String get printDetails => "$id $regId ${vehicleType.name.toUpperCase()} ${owner.name}";
+  String get printDetails => "$id $regId ${vehicleType.name.toUpperCase()} ${PersonRepository().getPersonById(ownerId).name}";
 
 }
 
